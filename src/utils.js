@@ -1,7 +1,3 @@
-function bytesToHex(buffer) {
-    return Array.from(buffer).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
 function randomBigInt(bits = 64) {
     let r = 0n;
     for (let i = 0; i < bits; i += 32) {
@@ -10,4 +6,11 @@ function randomBigInt(bits = 64) {
     return r;
 }
 
-module.exports = { bytesToHex, randomBigInt };
+function randomSignedBigInt() {
+    const max = 2n**63n - 1n;
+    const min = -(2n**63n);
+    const range = max - min + 1n;
+    return min + (randomBigInt(63) % range);
+}
+
+module.exports = { randomBigInt, randomSignedBigInt };

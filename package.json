@@ -1,0 +1,15 @@
+{
+  "name": "var64",
+  "version": "1.0.0",
+  "description": "Compact **variable-length 64-bit integer encoding** for Node.js.   Max 10 bytes, supports signed integers via ZigZag.",
+  "main": "cli.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
