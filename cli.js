@@ -1,15 +1,32 @@
-#!/usr/bin/env node
-const { encodeVarint, decodeVarint } = require('./src/var64');
-const { bytesToHex } = require('./src/utils');
+const { encodeVarint, decodeVarint, encodeSigned, decodeSigned } = require('./src/var64');
 
-const input = process.argv[2];
-if (!input) {
-    console.log('Usage: node cli.js <number>');
+function bytesToHex(bytes) {
+    return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+const arg = process.argv[2];
+if (!arg) {
+    console.error('Usage: node cli.js <number>');
     process.exit(1);
 }
 
-const value = BigInt(input);
-const encoded = encodeVarint(value);
-console.log(`Number: ${value}`);
+let n;
+try {
+    n = BigInt(arg);
+} catch {
+    console.error('Invalid number:', arg);
+    process.exit(1);
+}
+
+let encoded, decoded;
+if (n < 0n) {
+    encoded = encodeSigned(n);
+    decoded = decodeSigned(encoded);
+} else {
+    encoded = encodeVarint(n);
+    decoded = decodeVarint(encoded);
+}
+
+console.log(`Number: ${n}`);
 console.log(`Encoded (hex): ${bytesToHex(encoded)}`);
-console.log(`Decoded: ${decodeVarint(encoded)}`);
+console.log(`Decoded: ${decoded}`);
